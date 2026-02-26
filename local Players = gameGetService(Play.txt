@@ -2,68 +2,205 @@ local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
 
--- GUI
-local gui = Instance.new("ScreenGui", game.CoreGui)
-gui.Name = "BananaLoading"
+local gui = Instance.new("ScreenGui",game.CoreGui)
+gui.IgnoreGuiInset = true
+gui.Name = "BINHAN_LOADING_V2"
 
-local frame = Instance.new("Frame", gui)
-frame.Size = UDim2.new(1,0,1,0)
-frame.BackgroundColor3 = Color3.fromRGB(15,15,15)
+-- Nền Gradient
+local bg = Instance.new("Frame",gui)
+bg.Size = UDim2.new(1,0,1,0)
+bg.BackgroundColor3 = Color3.fromRGB(10,10,20)
+
+local grad = Instance.new("UIGradient",bg)
+grad.Color = ColorSequence.new{
+	ColorSequenceKeypoint.new(0,Color3.fromRGB(0,0,40)),
+	ColorSequenceKeypoint.new(1,Color3.fromRGB(0,80,120))
+}
+grad.Rotation = 45
 
 -- Avatar
-local avatar = Instance.new("ImageLabel", frame)
-avatar.Size = UDim2.new(0,150,0,150)
-avatar.Position = UDim2.new(0.5,-75,0.25,-75)
+local avatar = Instance.new("ImageLabel",bg)
+avatar.AnchorPoint = Vector2.new(0.5,0.5)
+avatar.Position = UDim2.new(0.5,0,0.35,0)
+avatar.Size = UDim2.new(0,0,0,0)
 avatar.BackgroundTransparency = 1
 
-local userId = player.UserId
-local thumbType = Enum.ThumbnailType.HeadShot
-local thumbSize = Enum.ThumbnailSize.Size420x420
-local content,isReady = Players:GetUserThumbnailAsync(userId,thumbType,thumbSize)
+local content = Players:GetUserThumbnailAsync(
+	player.UserId,
+	Enum.ThumbnailType.HeadShot,
+	Enum.ThumbnailSize.Size420x420
+)
 avatar.Image = content
 
--- Text
-local textLabel = Instance.new("TextLabel", frame)
-textLabel.Size = UDim2.new(1,0,0,50)
-textLabel.Position = UDim2.new(0,0,0.55,0)
-textLabel.BackgroundTransparency = 1
-textLabel.TextColor3 = Color3.new(1,1,1)
-textLabel.TextScaled = true
-textLabel.Font = Enum.Font.GothamBold
-textLabel.Text = "Loading..."
+Instance.new("UICorner",avatar).CornerRadius = UDim.new(1,0)
 
--- Percent
-local percent = Instance.new("TextLabel", frame)
-percent.Size = UDim2.new(1,0,0,50)
-percent.Position = UDim2.new(0,0,0.7,0)
+TweenService:Create(
+	avatar,
+	TweenInfo.new(1,Enum.EasingStyle.Back),
+	{Size = UDim2.new(0,170,0,170)}
+):Play()
+
+-- Xoay nhẹ
+spawn(function()
+	while wait() do
+		avatar.Rotation += 0.2
+	end
+end)
+
+-- Thanh Loading
+local barBG = Instance.new("Frame",bg)
+barBG.AnchorPoint = Vector2.new(0.5,0)
+barBG.Position = UDim2.new(0.5,0,0.65,0)
+barBG.Size = UDim2.new(0.4,0,0.03,0)
+barBG.BackgroundColor3 = Color3.fromRGB(40,40,60)
+Instance.new("UICorner",barBG).CornerRadius = UDim.new(1,0)
+
+local bar = Instance.new("Frame",barBG)
+bar.Size = UDim2.new(0,0,1,0)
+bar.BackgroundColor3 = Color3.fromRGB(0,255,200)
+Instance.new("UICorner",bar).CornerRadius = UDim.new(1,0)
+
+-- %
+local percent = Instance.new("TextLabel",bg)
+percent.AnchorPoint = Vector2.new(0.5,0)
+percent.Position = UDim2.new(0.5,0,0.6,0)
+percent.Size = UDim2.new(0,300,0,50)
 percent.BackgroundTransparency = 1
-percent.TextColor3 = Color3.new(0,1,0)
 percent.TextScaled = true
 percent.Font = Enum.Font.GothamBold
+percent.TextColor3 = Color3.fromRGB(255,255,255)
 percent.Text = "0%"
 
-local messages = {
-	"bình an dz",
-	"yêu nước",
-	"script made by bình an dz",
-	"banana cat hub cua chung toi da ngung hoat dong",
-	"bác hồ kính yêu"
+-- Chữ
+local msg = percent:Clone()
+msg.Position = UDim2.new(0.5,0,0.72,0)
+msg.Text = ""
+msg.Parent = bg
+
+local textList = {
+	"bình an dz yêu việt nam",
+	"script tổng hợp made by bình an dz",
+	"code phụ quang huy",
+	"lãnh tụ hồ chí minh muôn năm"
 }
 
--- Loading
-spawn(function()
-	for i = 1,100 do
-		percent.Text = i.."%"
-		
-		if i == 20 then textLabel.Text = messages[1] end
-		if i == 40 then textLabel.Text = messages[2] end
-		if i == 60 then textLabel.Text = messages[3] end
-		if i == 80 then textLabel.Text = messages[4] end
-		if i == 100 then textLabel.Text = messages[5] end
-		
-		wait(0.03)
+-- Loading mượt + chữ đổi chậm
+for i=1,100 do
+	wait(0.08) -- CHẠY CHẬM HƠN Ở ĐÂY
+
+	percent.Text = i.."%"
+
+	TweenService:Create(
+		bar,
+		TweenInfo.new(0.08,Enum.EasingStyle.Sine),
+		{Size = UDim2.new(i/100,0,1,0)}
+	):Play()
+
+	if i%25==0 then
+		local newText = textList[(i/25)]
+		msg.TextTransparency = 1
+		msg.Text = newText
+
+		TweenService:Create(
+			msg,
+			TweenInfo.new(1),
+			{TextTransparency = 0}
+		):Play()
 	end
-	
-	wait(1)
-	gui:Destroy()
 end
+
+wait(1)
+
+TweenService:Create(
+	bg,
+	TweenInfo.new(1),
+	{BackgroundTransparency = 1}
+):Play()
+
+wait(1)
+gui:Destroy()
+--// KEY SYSTEM BY BINH AN DZ
+
+local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
+local player = Players.LocalPlayer
+
+-- CONFIG KEY
+local CorrectKey = "BINHAN-VIP-2026" -- đổi key ở đây
+
+-- GUI
+local gui = Instance.new("ScreenGui", game.CoreGui)
+gui.Name = "BINHAN_KEY_SYSTEM"
+gui.ResetOnSpawn = false
+
+local frame = Instance.new("Frame", gui)
+frame.Size = UDim2.new(0, 400, 0, 230)
+frame.Position = UDim2.new(0.5, -200, 0.5, -115)
+frame.BackgroundColor3 = Color3.fromRGB(20,20,35)
+frame.Active = true
+frame.Draggable = true
+
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0,15)
+
+-- Title
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1,0,0,50)
+title.BackgroundTransparency = 1
+title.Text = "🔐 BINH AN DZ KEY SYSTEM"
+title.TextScaled = true
+title.Font = Enum.Font.GothamBold
+title.TextColor3 = Color3.fromRGB(0,255,200)
+
+-- TextBox
+local box = Instance.new("TextBox", frame)
+box.Size = UDim2.new(0.8,0,0,45)
+box.Position = UDim2.new(0.1,0,0.4,0)
+box.PlaceholderText = "Nhập key vào đây..."
+box.Text = ""
+box.TextScaled = true
+box.BackgroundColor3 = Color3.fromRGB(40,40,60)
+box.TextColor3 = Color3.new(1,1,1)
+
+Instance.new("UICorner", box).CornerRadius = UDim.new(0,10)
+
+-- Status
+local status = Instance.new("TextLabel", frame)
+status.Size = UDim2.new(1,0,0,30)
+status.Position = UDim2.new(0,0,0.65,0)
+status.BackgroundTransparency = 1
+status.TextScaled = true
+status.Font = Enum.Font.Gotham
+status.TextColor3 = Color3.new(1,1,1)
+status.Text = ""
+
+-- Button
+local button = Instance.new("TextButton", frame)
+button.Size = UDim2.new(0.6,0,0,40)
+button.Position = UDim2.new(0.2,0,0.8,0)
+button.Text = "XÁC NHẬN"
+button.TextScaled = true
+button.Font = Enum.Font.GothamBold
+button.BackgroundColor3 = Color3.fromRGB(0,255,170)
+button.TextColor3 = Color3.new(0,0,0)
+
+Instance.new("UICorner", button).CornerRadius = UDim.new(0,10)
+
+-- CHECK KEY
+button.MouseButton1Click:Connect(function()
+	if box.Text == CorrectKey then
+		
+		status.TextColor3 = Color3.fromRGB(0,255,100)
+		status.Text = "✔ Key Chính Xác! Đang mở script..."
+		
+		wait(1)
+		
+		gui:Destroy()
+		
+		-- MỞ SCRIPT Ở ĐÂY
+		print("Script Activated!")
+		
+	else
+		status.TextColor3 = Color3.fromRGB(255,50,50)
+		status.Text = "✖ Key Sai! Thử lại. vui lòng mua key để tiếp tục script"
+	end
+end)
