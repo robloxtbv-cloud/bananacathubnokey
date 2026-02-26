@@ -79,8 +79,8 @@ msg.Parent = bg
 
 local textList = {
 	"bình an dz yêu việt nam",
-	"script tổng hợp made by bình an dz",
-	"code phụ quang huy",
+	"script maru premium có tốc độ đánh cực hạn",
+	"code : bình an dz",
 	"lãnh tụ hồ chí minh muôn năm"
 }
 
@@ -204,3 +204,4 @@ button.MouseButton1Click:Connect(function()
 		status.Text = "✖ Key Sai! Thử lại. vui lòng mua key để tiếp tục script"
 	end
 end)
+
