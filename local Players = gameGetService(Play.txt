@@ -46,7 +46,7 @@ local messages = {
 	"bình an dz",
 	"yêu nước",
 	"script made by bình an dz",
-	"banana cat hub free",
+	"banana cat hub cua chung toi da ngung hoat dong",
 	"bác hồ kính yêu"
 }
 
@@ -66,5 +66,4 @@ spawn(function()
 	
 	wait(1)
 	gui:Destroy()
-end)
-loadstring(game:HttpGet("https://raw.githubusercontent.com/aloaloalo322/sssdas/refs/heads/main/cc"))()
+end
