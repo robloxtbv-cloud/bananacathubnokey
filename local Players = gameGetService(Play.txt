@@ -67,9 +67,9 @@ local Root = HumanoidRootPart
 Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/hdanhhub/UI/refs/heads/main/ui_BananaHub_final.lua"))()
 
 Window = Library:CreateWindow({
-    Title = "VTD roblox",
+    Title = "Binh An dz roblox",
     Desc = "- Blox Fruit",
-    Image = "rbxassetid://123613996022560"
+    Image = "rbxassetid://109883658937194
 })
 
 -- ==========================================
@@ -353,7 +353,7 @@ end)
 wait(1)
 
 Library:Notify({
-    Title = "VTD roblox",
+    Title = "Binh An d roblox",
     Description = "Chào mừng! UI màu hồng đã được load thành công.\nNhấn nút góc trái màn hình để mở GUI.",
     Duration = 4
 })
@@ -2946,21 +2946,21 @@ task.defer(function()
 end)
 Tabs.Info:AddSection("Thông Tin")
 Tabs.Info:AddButton({
-    ["Title"] = "HDanh Community",
+    ["Title"] = "Binh An dz  Community",
     ["Description"] = "Discord",
     ["Callback"] = function()
         setclipboard(tostring("https://dsc.gg/nopermc"))
     end
 })
 Tabs.Info:AddButton({
-    ["Title"] = "VTD roblox",
+    ["Title"] = "Binh AN dz  roblox",
     ["Description"] = "Youtube",
     ["Callback"] = function()
         setclipboard(tostring("https://youtube.com/@nopermc"))
     end
 })
 Tabs.Info:AddButton({
-    ["Title"] = "VTD roblox",
+    ["Title"] = "Bacontapchoirblox roblox",
     ["Description"] = "Tiktok",
     ["Callback"] = function()
         setclipboard(tostring("www.tiktok.com/@uytins1vn._"))
@@ -12060,4 +12060,4 @@ Tabs.Misc:AddButton({
 })
 
 -- ===============================================================
-print('✅ VTD roblox - Tất cả tính năng đã được load!')
+print('✅ BInh An  roblox - Tất cả tính năng đã được load!')
